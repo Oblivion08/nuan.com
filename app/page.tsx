@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BookPreview, GameDemo } from "./components/InteractivePreviews";
 
 const messenger = "https://m.me/61589244254642";
 const facebook = "https://www.facebook.com/profile.php?id=61589244254642";
@@ -103,19 +104,11 @@ export default function Home() {
           <ul className="feature-list"><li>Interactive learning games</li><li>Teacher-friendly digital tools</li><li>Custom dashboards and trackers</li></ul>
           <a className="button dark" href={messenger} target="_blank" rel="noreferrer">Ask about our resources <span>↗</span></a>
         </div>
-        <div className="learning-collage">
-          <figure className="wide"><Image src="/assets/chronos.png" alt="Chronos Citadel educational game" width={907} height={837} /><figcaption>Interactive history game</figcaption></figure>
-          <figure><Image src="/assets/filibusterismo.png" alt="El Filibusterismo interactive game" width={1437} height={862} /><figcaption>Literature-based activities</figcaption></figure>
-          <figure><Image src="/assets/finance-dashboard.png" alt="Custom finance dashboard" width={1553} height={633} /><figcaption>Useful digital systems</figcaption></figure>
-        </div>
+        <GameDemo />
       </section>
 
       <section className="showcase books-showcase" id="book-products">
-        <div className="books-visual">
-          <div className="book-halo" />
-          <Image className="book one" src="/assets/mental-capital.png" alt="Mental Capital book cover" width={610} height={667} />
-          <Image className="book two" src="/assets/gift-storm.png" alt="The Gift Hidden in the Storm book cover" width={485} height={722} />
-        </div>
+        <BookPreview />
         <div className="showcase-copy">
           <p className="section-tag">NUAN Books</p>
           <h2>Stories born from<br /><em>life, faith, and growth.</em></h2>
