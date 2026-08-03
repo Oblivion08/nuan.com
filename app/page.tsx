@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BookPreview, GameDemo } from "./components/InteractivePreviews";
+import { BookPreview, CustomerReviews, GameDemo } from "./components/InteractivePreviews";
 
 const messenger = "https://m.me/61589244254642";
 const facebook = "https://www.facebook.com/profile.php?id=61589244254642";
@@ -132,6 +132,8 @@ export default function Home() {
           <div className="product-card product-milk"><span>MILK</span><Image src="/assets/milk-pack-enhanced.webp" alt="NUAN milk pastillas pack" width={900} height={1350} /></div>
         </div>
       </section>
+
+      <CustomerReviews />
 
       <section className="story" id="story">
         <div className="story-title"><p className="section-tag">Our beginning</p><h2>The Birth<br />of NUAN</h2><span className="story-line" /></div>

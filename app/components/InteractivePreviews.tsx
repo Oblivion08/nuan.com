@@ -131,3 +131,42 @@ export function BookPreview() {
     </div>
   );
 }
+
+const reviews = [
+  ["Sobrang sarap po, Ma’am. Hindi ako mahilig sa pastillas pero yung tinda mo po may gayuma ata at nahilig ako. Kahit sila Mama naghahanap kapag ubos na!", "A new pastillas favorite"],
+  ["Manyaman la pu, Ma’am. Elapu masyadung mayumu—benta kula. Sana kasu kekami mu pu kulang lapa!", "Balanced sweetness"],
+  ["Super bet na bet kahit saan. Sarap po—superb! Highly recommended!", "Highly recommended"],
+  ["Napakasarap! Babalik-balikan mo talaga. Best pastillas na natikman ko—tamang timpla ng tamis at creaminess, hindi nakakaumay.", "A repeat-order favorite"],
+];
+
+export function CustomerReviews() {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setActive((current) => (current + 1) % reviews.length), 6000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <section className="reviews-section" aria-labelledby="reviews-title">
+      <div className="review-image-frame">
+        <Image src="/assets/customer-reviews.webp" alt="Authentic NUAN Pastillas customer message reviews" width={1000} height={1250} />
+        <span>Real messages · shared with care</span>
+      </div>
+      <div className="reviews-copy">
+        <p className="section-tag">What customers are saying</p>
+        <h2 id="reviews-title">The kind of sweetness<br /><em>people come back for.</em></h2>
+        <p className="reviews-intro">From first-time tasters to repeat customers, these messages remind us why every thoughtfully packed treat matters.</p>
+        <div className="featured-review" key={active}>
+          <div className="review-stars" aria-label="Five star customer feedback">★★★★★</div>
+          <blockquote>“{reviews[active][0]}”</blockquote>
+          <div className="review-meta"><span>Customer feedback</span><strong>{reviews[active][1]}</strong></div>
+        </div>
+        <div className="review-controls" aria-label="Choose a customer review">
+          {reviews.map((review, index) => <button key={review[1]} className={active === index ? "active" : ""} onClick={() => setActive(index)} aria-label={`Show review ${index + 1}`}>{String(index + 1).padStart(2, "0")}</button>)}
+        </div>
+        <a className="button brown" href="https://m.me/61589244254642" target="_blank" rel="noreferrer">Try NUAN Pastillas <span>↗</span></a>
+      </div>
+    </section>
+  );
+}
