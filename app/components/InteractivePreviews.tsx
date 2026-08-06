@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type DemoMode = "battle" | "escape";
 
@@ -62,6 +62,7 @@ const books = [
     title: "Mental Capital",
     cover: "/assets/mental-capital.png",
     video: "/assets/mental-capital-preview.mp4",
+    ratio: "512 / 646",
     label: "Book One · Trading Psychology",
     subtitle: "Finding Discipline Before Profit",
     summary: "A personal journey through trading, failure, faith, and self-discovery—written for anyone learning that lasting progress begins with the person behind every decision.",
@@ -76,6 +77,7 @@ const books = [
     title: "The Gift Hidden in the Storm",
     cover: "/assets/gift-storm.png",
     video: "/assets/gift-storm-preview-v3.mp4",
+    ratio: "512 / 700",
     label: "Book Two · Faith & Transformation",
     subtitle: "A Journey of Redirection, Protection, and Transformation",
     summary: "A story shaped by unexpected endings and purposeful beginnings—an invitation to see how redirection can become protection when the timing is finally understood.",
@@ -87,6 +89,57 @@ const books = [
     ],
   },
 ];
+
+function BookVideo({ title, video, ratio }: { title: string; video: string; ratio: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [status, setStatus] = useState<"waiting" | "playing" | "paused" | "ended">("waiting");
+
+  useEffect(() => {
+    const player = videoRef.current;
+    if (!player) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.55 && !player.ended) {
+        player.play().catch(() => setStatus("paused"));
+      } else if (!entry.isIntersecting && !player.paused) {
+        player.pause();
+      }
+    }, { threshold: [0, 0.55] });
+
+    observer.observe(player);
+    return () => observer.disconnect();
+  }, []);
+
+  const playFromStart = () => {
+    const player = videoRef.current;
+    if (!player) return;
+    player.currentTime = 0;
+    player.play().catch(() => setStatus("paused"));
+  };
+
+  return (
+    <div className="book-video-player" style={{ aspectRatio: ratio }}>
+      <video
+        ref={videoRef}
+        muted
+        playsInline
+        preload="metadata"
+        aria-label={`${title} complete reading experience preview`}
+        onPlay={() => setStatus("playing")}
+        onPause={() => setStatus((current) => current === "ended" ? current : "paused")}
+        onEnded={() => setStatus("ended")}
+      >
+        <source src={video} type="video/mp4" />
+      </video>
+      {status !== "playing" ? (
+        <button type="button" className="book-video-action" onClick={playFromStart} aria-label={`${status === "ended" ? "Replay" : "Play"} ${title} preview`}>
+          <span>{status === "ended" ? "↻" : "▶"}</span>
+          {status === "ended" ? "Replay preview" : "Play preview"}
+        </button>
+      ) : null}
+    </div>
+  );
+}
 
 export function BookPreview() {
   return (
@@ -112,10 +165,8 @@ export function BookPreview() {
           </div>
           <div className="book-walkthrough">
             <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Full preview · plays once</b></div>
-            <video autoPlay muted playsInline controls preload="auto" aria-label={`${book.title} complete reading experience preview`}>
-              <source src={book.video} type="video/mp4" />
-            </video>
-            <p>A brief look at the digital reading experience.</p>
+            <BookVideo title={book.title} video={book.video} ratio={book.ratio} />
+            <p>Starts when visible · watch the full preview without distractions.</p>
           </div>
         </article>
       ))}
