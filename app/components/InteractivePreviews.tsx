@@ -60,68 +60,65 @@ export function GameDemo() {
 const books = [
   {
     title: "Mental Capital",
-    cover: "/assets/mental-capital-new-cover.jpg",
+    cover: "/assets/mental-capital.png",
     video: "/assets/mental-capital-preview.mp4",
-    eyebrow: "Discipline before profit",
-    pages: [
-      "The market did not only test the strategy—it revealed the person behind every decision.",
-      "A loss can empty an account. The wrong mindset can quietly take far more.",
-      "Before learning how to protect capital, one must learn how to protect discipline.",
+    label: "Book One · Trading Psychology",
+    subtitle: "Finding Discipline Before Profit",
+    summary: "A personal journey through trading, failure, faith, and self-discovery—written for anyone learning that lasting progress begins with the person behind every decision.",
+    quote: "The market did not only test the strategy—it revealed the person behind every decision.",
+    highlights: [
+      "Discipline before profit",
+      "Emotional resilience after loss",
+      "Faith, reflection, and rebuilding trust",
     ],
   },
   {
     title: "The Gift Hidden in the Storm",
-    cover: "/assets/gift-storm-new-cover.jpeg",
+    cover: "/assets/gift-storm.png",
     video: "/assets/gift-storm-preview.mp4",
-    eyebrow: "Redirection can be protection",
-    pages: [
-      "Some storms do not arrive to destroy a dream. They arrive to reveal a different road.",
-      "What felt like a painful ending slowly became the beginning she could not yet see.",
-      "Sometimes the gift is not the life we planned—but the person we become after the storm.",
+    label: "Book Two · Faith & Transformation",
+    subtitle: "A Journey of Redirection, Protection, and Transformation",
+    summary: "A story shaped by unexpected endings and purposeful beginnings—an invitation to see how redirection can become protection when the timing is finally understood.",
+    quote: "Some storms do not arrive to destroy a dream. They arrive to reveal a different road.",
+    highlights: [
+      "Redirection as protection",
+      "Faith through uncertain seasons",
+      "Purpose, timing, and transformation",
     ],
   },
 ];
 
 export function BookPreview() {
-  const [bookIndex, setBookIndex] = useState(0);
-  const [page, setPage] = useState(0);
-  const book = books[bookIndex];
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setPage((current) => (current + 1) % book.pages.length), 5200);
-    return () => window.clearInterval(timer);
-  }, [bookIndex, book.pages.length]);
-
-  function chooseBook(index: number) {
-    setBookIndex(index);
-    setPage(0);
-  }
-
   return (
-    <div className="book-preview">
-      <div className="book-selector" role="tablist" aria-label="Choose a book preview">
-        {books.map((item, index) => <button key={item.title} onClick={() => chooseBook(index)} className={bookIndex === index ? "active" : ""}>{index + 1}. {item.title}</button>)}
-      </div>
-      <div className="book-preview-stage">
-        <div className={`book-cover-panel cover-${bookIndex}`}>
-          <Image key={book.cover} src={book.cover} alt={`${book.title} book cover`} fill sizes="(max-width: 580px) 88vw, 28vw" />
-          <span>Featured book</span>
-        </div>
-        <div className="book-media-panel">
-          <div className="book-video-frame">
-            <video key={book.video} autoPlay muted loop playsInline controls preload="metadata" aria-label={`${book.title} digital reading preview`}>
+    <div className="book-library">
+      {books.map((book, index) => (
+        <article className={`book-feature ${index === 1 ? "reverse" : ""}`} key={book.title}>
+          <div className="book-cover-showcase">
+            <div className="cover-glow" />
+            <Image src={book.cover} alt={`${book.title} full book cover`} width={610} height={722} sizes="(max-width: 700px) 86vw, 35vw" />
+            <span>NUAN BOOKS · {String(index + 1).padStart(2, "0")}</span>
+          </div>
+          <div className="book-feature-copy">
+            <p className="book-label">{book.label}</p>
+            <h3>{book.title}</h3>
+            <h4>{book.subtitle}</h4>
+            <p className="book-summary">{book.summary}</p>
+            <div className="book-highlight-list">
+              <p>Inside this story</p>
+              <ul>{book.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
+            </div>
+            <blockquote>“{book.quote}”</blockquote>
+            <a className="button book-inquiry" href="https://m.me/61589244254642" target="_blank" rel="noreferrer">Ask about this book <span>↗</span></a>
+          </div>
+          <div className="book-walkthrough">
+            <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Press play</b></div>
+            <video muted loop playsInline controls preload="metadata" poster={book.cover} aria-label={`${book.title} reading experience preview`}>
               <source src={book.video} type="video/mp4" />
             </video>
+            <p>A brief look at the digital reading experience.</p>
           </div>
-          <div className="open-page" key={`${bookIndex}-${page}`}>
-            <div className="page-label">A glimpse inside</div>
-            <p className="page-eyebrow">{book.eyebrow}</p>
-            <blockquote>“{book.pages[page]}”</blockquote>
-            <div className="page-footer"><span>{String(page + 1).padStart(2, "0")} / 03</span><button onClick={() => setPage((page + 1) % book.pages.length)}>Next thought →</button></div>
-          </div>
-        </div>
-      </div>
-      <p className="teaser-note">Digital reading experience preview · Promotional lines inspired by the book&apos;s themes.</p>
+        </article>
+      ))}
     </div>
   );
 }
