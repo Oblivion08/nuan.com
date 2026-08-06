@@ -2,20 +2,19 @@
 
 Vercel-ready Next.js website for NUAN, featuring NUAN Learning Studio, NUAN Books, and NUAN Pastillas.
 
-## Upload to GitHub
+## Repository and production website
 
-1. Extract the ZIP file.
-2. Open `https://github.com/Oblivion08/nuanofficial.com`.
-3. Choose **Add file → Upload files**.
-4. Drag all extracted files and folders into GitHub.
-5. Choose **Commit changes**.
+- GitHub: `https://github.com/Oblivion08/nuan.com`
+- Production: `https://nuan-com.vercel.app/`
+- Vercel project: `nuan-com`
 
-## Deploy on Vercel
+Every update pushed to the `main` branch is deployed automatically to production through the connected Vercel project.
 
-1. Sign in at `https://vercel.com` using GitHub.
-2. Choose **Add New → Project**.
-3. Import `Oblivion08/nuanofficial.com`.
-4. Keep the detected **Next.js** settings.
-5. Choose **Deploy**.
+## Local development
+
+1. Clone the repository.
+2. Run `npm install`.
+3. Run `npm run dev`.
+4. Open `http://localhost:3000`.
 
 No environment variables or database setup are required for this version.
