@@ -112,7 +112,7 @@ export function BookPreview() {
           </div>
           <div className="book-walkthrough">
             <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Press play</b></div>
-            <video muted loop playsInline controls preload="metadata" poster={book.cover} aria-label={`${book.title} reading experience preview`}>
+            <video muted playsInline controls preload="metadata" poster={book.cover} aria-label={`${book.title} complete reading experience preview`}>
               <source src={book.video} type="video/mp4" />
             </video>
             <p>A brief look at the digital reading experience.</p>
