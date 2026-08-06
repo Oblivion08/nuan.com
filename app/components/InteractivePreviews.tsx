@@ -111,8 +111,8 @@ export function BookPreview() {
             <a className="button book-inquiry" href="https://m.me/61589244254642" target="_blank" rel="noreferrer">Ask about this book <span>↗</span></a>
           </div>
           <div className="book-walkthrough">
-            <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Press play</b></div>
-            <video muted playsInline controls preload="metadata" poster={book.cover} aria-label={`${book.title} complete reading experience preview`}>
+            <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Full preview · plays once</b></div>
+            <video autoPlay muted playsInline controls preload="auto" aria-label={`${book.title} complete reading experience preview`}>
               <source src={book.video} type="video/mp4" />
             </video>
             <p>A brief look at the digital reading experience.</p>
