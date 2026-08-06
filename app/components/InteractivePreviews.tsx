@@ -7,68 +7,50 @@ type DemoMode = "battle" | "escape";
 
 const demos = {
   battle: {
-    icon: "⚔️",
-    title: "Character Battle",
-    subtitle: "Defeat the History Boss",
-    image: "/assets/game-character-battle.webp",
-    question: "A ruler wants to strengthen a civilization by creating a written code of laws. Whose achievement offers the clearest model?",
-    choices: ["Ashoka", "Hammurabi", "Ramses II"],
-    answer: "Hammurabi",
+    number: "01",
+    title: "Chronos Citadel",
+    subtitle: "An interactive geography and history mission",
+    video: "/assets/chronos-citadel-preview.mp4",
+    poster: "/assets/game-character-battle.webp",
+    format: "Landscape learning adventure",
   },
   escape: {
-    icon: "🏺",
-    title: "Escape Room",
-    subtitle: "Unlock the Ancient Chamber",
-    image: "/assets/game-escape-room.webp",
-    question: "The clue describes a society divided into hereditary social groups. Which ancient civilization unlocks the door?",
-    choices: ["Egyptian", "Indus", "Sumerian"],
-    answer: "Indus",
+    number: "02",
+    title: "AP8 Adventure Hub",
+    subtitle: "Quest-based Araling Panlipunan experiences",
+    video: "/assets/ap8-adventure-preview.mp4",
+    poster: "/assets/game-escape-room.webp",
+    format: "Mobile learning experience",
   },
 };
 
 export function GameDemo() {
   const [mode, setMode] = useState<DemoMode>("battle");
-  const [selected, setSelected] = useState<string | null>(null);
   const demo = demos[mode];
-  const correct = selected === demo.answer;
-
-  function changeMode(next: DemoMode) {
-    setMode(next);
-    setSelected(null);
-  }
 
   return (
-    <div className="game-demo-shell">
-      <div className="demo-topline"><span className="live-dot" /> PLAYABLE WEBSITE DEMO <span>1 SAMPLE ROUND</span></div>
-      <div className="demo-switch" role="tablist" aria-label="Choose a sample game">
-        <button className={mode === "battle" ? "active" : ""} onClick={() => changeMode("battle")} role="tab">⚔️ Battle</button>
-        <button className={mode === "escape" ? "active" : ""} onClick={() => changeMode("escape")} role="tab">🏺 Escape Room</button>
+    <div className="game-reel">
+      <div className="reel-heading">
+        <div><span className="live-dot" /> GAME PREVIEW</div>
+        <span>See learning in motion</span>
       </div>
-      <div className="demo-screen">
-        <div className="demo-visual">
-          <Image src={demo.image} alt={`${demo.title} mobile game preview`} width={945} height={2048} priority={false} />
-          <div className="screen-shine" />
+      <div className="reel-tabs" role="tablist" aria-label="Choose a game preview">
+        {(Object.keys(demos) as DemoMode[]).map((key) => (
+          <button key={key} className={mode === key ? "active" : ""} onClick={() => setMode(key)} role="tab" aria-selected={mode === key}>
+            <span>{demos[key].number}</span>{demos[key].title}
+          </button>
+        ))}
+      </div>
+      <div className="reel-stage">
+        <div className={`video-device ${mode === "escape" ? "portrait" : "landscape"}`}>
+          <video key={demo.video} autoPlay muted loop playsInline controls preload="metadata" poster={demo.poster} aria-label={`${demo.title} gameplay preview`}>
+            <source src={demo.video} type="video/mp4" />
+          </video>
         </div>
-        <div className="demo-play">
-          <p className="demo-week">NUAN LEARNING STUDIO · AP8</p>
-          <h3><span>{demo.icon}</span>{demo.title}</h3>
-          <p className="demo-subtitle">{demo.subtitle}</p>
-          <p className="demo-question">{demo.question}</p>
-          <div className="demo-choices">
-            {demo.choices.map((choice) => (
-              <button
-                key={choice}
-                className={selected === choice ? (correct ? "correct" : "wrong") : ""}
-                onClick={() => setSelected(choice)}
-                disabled={selected !== null}
-              >{choice}</button>
-            ))}
-          </div>
-          {selected && <div className={`demo-result ${correct ? "success" : "retry"}`}>
-            <strong>{correct ? "🏆 History Boss defeated!" : "🔐 The chamber remains locked."}</strong>
-            <span>{correct ? "Great reasoning! You found the historical clue." : `The correct answer is ${demo.answer}. Try another mission!`}</span>
-            <button onClick={() => setSelected(null)}>Play again ↻</button>
-          </div>}
+        <div className="reel-caption">
+          <p>{demo.format}</p>
+          <h3>{demo.title}</h3>
+          <span>{demo.subtitle}</span>
         </div>
       </div>
     </div>
@@ -78,7 +60,8 @@ export function GameDemo() {
 const books = [
   {
     title: "Mental Capital",
-    cover: "/assets/mental-capital.png",
+    cover: "/assets/mental-capital-new-cover.jpg",
+    video: "/assets/mental-capital-preview.mp4",
     eyebrow: "Discipline before profit",
     pages: [
       "The market did not only test the strategy—it revealed the person behind every decision.",
@@ -88,7 +71,8 @@ const books = [
   },
   {
     title: "The Gift Hidden in the Storm",
-    cover: "/assets/gift-storm.png",
+    cover: "/assets/gift-storm-new-cover.jpeg",
+    video: "/assets/gift-storm-preview.mp4",
     eyebrow: "Redirection can be protection",
     pages: [
       "Some storms do not arrive to destroy a dream. They arrive to reveal a different road.",
@@ -119,15 +103,25 @@ export function BookPreview() {
         {books.map((item, index) => <button key={item.title} onClick={() => chooseBook(index)} className={bookIndex === index ? "active" : ""}>{index + 1}. {item.title}</button>)}
       </div>
       <div className="book-preview-stage">
-        <div className="preview-cover"><Image key={book.cover} src={book.cover} alt={`${book.title} cover`} width={610} height={722} /></div>
-        <div className="open-page" key={`${bookIndex}-${page}`}>
-          <div className="page-label">A glimpse inside</div>
-          <p className="page-eyebrow">{book.eyebrow}</p>
-          <blockquote>“{book.pages[page]}”</blockquote>
-          <div className="page-footer"><span>{String(page + 1).padStart(2, "0")} / 03</span><button onClick={() => setPage((page + 1) % book.pages.length)}>Turn the page →</button></div>
+        <div className={`book-cover-panel cover-${bookIndex}`}>
+          <Image key={book.cover} src={book.cover} alt={`${book.title} book cover`} fill sizes="(max-width: 580px) 88vw, 28vw" />
+          <span>Featured book</span>
+        </div>
+        <div className="book-media-panel">
+          <div className="book-video-frame">
+            <video key={book.video} autoPlay muted loop playsInline controls preload="metadata" aria-label={`${book.title} digital reading preview`}>
+              <source src={book.video} type="video/mp4" />
+            </video>
+          </div>
+          <div className="open-page" key={`${bookIndex}-${page}`}>
+            <div className="page-label">A glimpse inside</div>
+            <p className="page-eyebrow">{book.eyebrow}</p>
+            <blockquote>“{book.pages[page]}”</blockquote>
+            <div className="page-footer"><span>{String(page + 1).padStart(2, "0")} / 03</span><button onClick={() => setPage((page + 1) % book.pages.length)}>Next thought →</button></div>
+          </div>
         </div>
       </div>
-      <p className="teaser-note">Promotional preview inspired by the book&apos;s themes.</p>
+      <p className="teaser-note">Digital reading experience preview · Promotional lines inspired by the book&apos;s themes.</p>
     </div>
   );
 }
