@@ -63,6 +63,7 @@ const books = [
     cover: "/assets/mental-capital.png",
     video: "/assets/mental-capital-preview.mp4",
     ratio: "512 / 646",
+    endPadding: 0.35,
     label: "Book One · Trading Psychology",
     subtitle: "Finding Discipline Before Profit",
     summary: "A personal journey through trading, failure, faith, and self-discovery—written for anyone learning that lasting progress begins with the person behind every decision.",
@@ -78,6 +79,7 @@ const books = [
     cover: "/assets/gift-storm.png",
     video: "/assets/gift-storm-preview-v3.mp4",
     ratio: "512 / 700",
+    endPadding: 0,
     label: "Book Two · Faith & Transformation",
     subtitle: "A Journey of Redirection, Protection, and Transformation",
     summary: "A story shaped by unexpected endings and purposeful beginnings—an invitation to see how redirection can become protection when the timing is finally understood.",
@@ -90,7 +92,7 @@ const books = [
   },
 ];
 
-function BookVideo({ title, video, ratio }: { title: string; video: string; ratio: string }) {
+function BookVideo({ title, video, ratio, endPadding }: { title: string; video: string; ratio: string; endPadding: number }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [status, setStatus] = useState<"waiting" | "playing" | "paused" | "ended">("waiting");
 
@@ -100,9 +102,8 @@ function BookVideo({ title, video, ratio }: { title: string; video: string; rati
 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && entry.intersectionRatio >= 0.55 && !player.ended) {
+        observer.disconnect();
         player.play().catch(() => setStatus("paused"));
-      } else if (!entry.isIntersecting && !player.paused) {
-        player.pause();
       }
     }, { threshold: [0, 0.55] });
 
@@ -127,6 +128,13 @@ function BookVideo({ title, video, ratio }: { title: string; video: string; rati
         aria-label={`${title} complete reading experience preview`}
         onPlay={() => setStatus("playing")}
         onPause={() => setStatus((current) => current === "ended" ? current : "paused")}
+        onTimeUpdate={(event) => {
+          const player = event.currentTarget;
+          if (endPadding > 0 && player.duration - player.currentTime <= endPadding) {
+            setStatus("ended");
+            player.pause();
+          }
+        }}
         onEnded={() => setStatus("ended")}
       >
         <source src={video} type="video/mp4" />
@@ -165,7 +173,7 @@ export function BookPreview() {
           </div>
           <div className="book-walkthrough">
             <div className="walkthrough-top"><span className="live-dot" /> DIGITAL BOOK PREVIEW <b>Full preview · plays once</b></div>
-            <BookVideo title={book.title} video={book.video} ratio={book.ratio} />
+            <BookVideo title={book.title} video={book.video} ratio={book.ratio} endPadding={book.endPadding} />
             <p>Starts when visible · watch the full preview without distractions.</p>
           </div>
         </article>
