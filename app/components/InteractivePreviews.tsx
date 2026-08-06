@@ -75,7 +75,7 @@ const books = [
   {
     title: "The Gift Hidden in the Storm",
     cover: "/assets/gift-storm.png",
-    video: "/assets/gift-storm-preview-v2.mp4",
+    video: "/assets/gift-storm-preview-v3.mp4",
     label: "Book Two · Faith & Transformation",
     subtitle: "A Journey of Redirection, Protection, and Transformation",
     summary: "A story shaped by unexpected endings and purposeful beginnings—an invitation to see how redirection can become protection when the timing is finally understood.",

@@ -35,3 +35,5 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.orbit-two{animation:none}.button,.branch-card{transition:none}}
 .video-device.landscape{width:min(100%,680px);aspect-ratio:16/9;border-radius:13px;border-width:8px 8px 13px}
 @media(max-width:580px){.video-device.landscape{width:100%;border-width:4px 4px 7px}}
+.book-walkthrough video{width:min(100%,512px);height:auto;aspect-ratio:128/175;max-height:620px;object-fit:contain;margin:0 auto}
+@media(max-width:950px){.book-walkthrough video{aspect-ratio:128/175;max-height:620px}}
