@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { SiteFooter } from "./components/SiteFooter";
+import { SiteNav } from "./components/SiteNav";
 import { ZapierChatbot } from "./components/ZapierChatbot";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "NUAN by JLEL | Created with Heart, Made to Inspire",
+  metadataBase: new URL("https://nuan-com.vercel.app"),
+  title: { default: "NUAN | Products, Learning and Digital Creations", template: "%s | NUAN" },
   description:
     "Meet the NUAN family: meaningful books, interactive learning experiences, and thoughtfully packed milk and ube pastillas.",
   other: {
@@ -13,6 +16,7 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
+  openGraph: { title: "NUAN | Products, Learning and Digital Creations", description: "Discover NUAN books, learning experiences, digital creations, and thoughtfully packed pastillas.", images: ["/assets/nuan-logo.png"], type: "website" },
 };
 
 export default function RootLayout({
@@ -23,7 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en-PH">
       <body>
-        {children}
+        <SiteNav />
+        <div className="site-content">{children}</div>
+        <SiteFooter />
         <ZapierChatbot />
       </body>
     </html>
