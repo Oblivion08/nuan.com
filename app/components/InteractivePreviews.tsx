@@ -207,10 +207,11 @@ export function CustomerReviews() {
         <p className="section-tag">What customers are saying</p>
         <h2 id="reviews-title">The kind of sweetness<br /><em>people come back for.</em></h2>
         <p className="reviews-intro">From first-time tasters to repeat customers, these messages remind us why every thoughtfully packed treat matters.</p>
+        <div className="review-proof" aria-label="Customer feedback highlights"><span><b>4</b> shared messages</span><span><b>5★</b> featured feedback</span><span><b>Real</b> customer conversations</span></div>
         <div className="featured-review" key={active}>
           <div className="review-stars" aria-label="Five star customer feedback">★★★★★</div>
           <blockquote>“{reviews[active][0]}”</blockquote>
-          <div className="review-meta"><span>Customer feedback</span><strong>{reviews[active][1]}</strong></div>
+          <div className="review-meta"><span>Verified message excerpt</span><strong>{reviews[active][1]}</strong></div>
         </div>
         <div className="review-controls" aria-label="Choose a customer review">
           {reviews.map((review, index) => <button key={review[1]} className={active === index ? "active" : ""} onClick={() => setActive(index)} aria-label={`Show review ${index + 1}`}>{String(index + 1).padStart(2, "0")}</button>)}
