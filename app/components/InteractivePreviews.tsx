@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 type DemoMode = "battle" | "escape";
@@ -193,31 +194,30 @@ export function CustomerReviews() {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const timer = window.setInterval(() => setActive((current) => (current + 1) % reviews.length), 6000);
     return () => window.clearInterval(timer);
   }, []);
 
   return (
-    <section className="reviews-section" aria-labelledby="reviews-title">
-      <div className="review-image-frame">
-        <Image src="/assets/customer-reviews.webp" alt="Authentic NUAN Pastillas customer message reviews" width={1000} height={1250} />
-        <span>Real messages · shared with care</span>
-      </div>
+    <section className="reviews-section reviews-compact" aria-labelledby="reviews-title">
       <div className="reviews-copy">
-        <p className="section-tag">What customers are saying</p>
-        <h2 id="reviews-title">The kind of sweetness<br /><em>people come back for.</em></h2>
-        <p className="reviews-intro">From first-time tasters to repeat customers, these messages remind us why every thoughtfully packed treat matters.</p>
-        <div className="review-proof" aria-label="Customer feedback highlights"><span><b>4</b> shared messages</span><span><b>5★</b> featured feedback</span><span><b>Real</b> customer conversations</span></div>
+        <p className="section-tag">Authentic customer feedback</p>
+        <h2 id="reviews-title">Real messages.<br /><em>Shared with care.</em></h2>
+        <p className="reviews-intro">Customer conversations from NUAN Pastillas, presented in their own words.</p>
         <div className="featured-review" key={active}>
-          <div className="review-stars" aria-label="Five star customer feedback">★★★★★</div>
           <blockquote>“{reviews[active][0]}”</blockquote>
-          <div className="review-meta"><span>Verified message excerpt</span><strong>{reviews[active][1]}</strong></div>
+          <div className="review-meta"><span>Customer message excerpt</span><strong>{reviews[active][1]}</strong></div>
         </div>
         <div className="review-controls" aria-label="Choose a customer review">
           {reviews.map((review, index) => <button key={review[1]} className={active === index ? "active" : ""} onClick={() => setActive(index)} aria-label={`Show review ${index + 1}`}>{String(index + 1).padStart(2, "0")}</button>)}
         </div>
-        <a className="button brown" href="https://m.me/61589244254642" target="_blank" rel="noreferrer">Try NUAN Pastillas <span>↗</span></a>
+        <Link className="text-link review-order-link" href="/products#pastillas">Order Now →</Link>
       </div>
+      <a className="review-image-frame" href="/assets/customer-reviews.webp" target="_blank" rel="noreferrer" aria-label="Open the original NUAN Pastillas customer message collage">
+        <Image src="/assets/customer-reviews.webp" alt="Original NUAN Pastillas customer message collage" width={1000} height={1250} sizes="(max-width: 980px) 90vw, 42vw" />
+        <span>View original customer messages ↗</span>
+      </a>
     </section>
   );
 }

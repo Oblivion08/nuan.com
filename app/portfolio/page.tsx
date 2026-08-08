@@ -2,15 +2,73 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "../components/PageHero";
-import { messenger, projects } from "../lib/site-data";
+import { projects } from "../lib/site-data";
 
-export const metadata: Metadata = { title: "NUAN Learning Studio | Digital Projects and Portfolio", description: "Explore NUAN Learning Studio educational games, websites, trackers, dashboards, books, and meaningful digital solutions.", openGraph: { title: "NUAN Learning Studio | Digital Projects and Portfolio", description: "Education, creativity, business, and technology brought together by NUAN." } };
+export const metadata: Metadata = {
+  title: "NUAN Learning Studio | Digital Learning and Business Solutions",
+  description: "Explore built and tested NUAN Learning Studio educational experiences, dashboards, trackers, and practical digital systems.",
+  openGraph: { title: "NUAN Learning Studio | Digital Learning and Business Solutions", description: "Digital learning experiences and practical systems for classrooms, creators, and growing businesses." },
+};
+
+const projectGroups = [
+  {
+    label: "Learning Experiences",
+    copy: "Interactive projects that turn lessons into focused, memorable activities.",
+    titles: ["Chronos Citadel", "AP8 Adventure Hub"],
+  },
+  {
+    label: "Business Systems",
+    copy: "Practical dashboards and trackers that make everyday records easier to understand.",
+    titles: ["NUAN Business Manager", "Income & Expense Tracker", "Trading Journal"],
+  },
+  {
+    label: "Web Experiences",
+    copy: "Responsive digital workspaces designed around a clear user goal.",
+    titles: ["Teacher Dashboard"],
+  },
+] as const;
 
 export default function PortfolioPage() {
-  return <main><PageHero eyebrow="NUAN Learning Studio · By JLEL" title={<>Digital projects made<br /><em>understandable and useful.</em></>} copy="NUAN combines education, creativity, business, and technology to create meaningful digital experiences for learners, teachers, small businesses, and everyday users." actions={<Link className="button" href="/contact">Start a project inquiry →</Link>} />
-    <section className="section studio-intro"><div><p className="section-tag">Our approach</p><h2>Human ideas first.<br /><em>Technology with purpose.</em></h2></div><div><p>Our work does not need to feel overly technical. We focus on clear experiences, practical outcomes, and visuals that help users understand what to do next.</p><div className="studio-points"><span>Education</span><span>Creativity</span><span>Business</span><span>Technology</span></div></div></section>
-    <section className="section portfolio-section"><header className="center-heading"><p className="section-tag">Selected work</p><h2>Projects across learning,<br /><em>business, and reflection.</em></h2></header><div className="portfolio-grid">{projects.map((project)=><article className="portfolio-card" key={project.title}><div className="portfolio-image"><Image src={project.image} alt={`${project.title} screenshot`} width={1000} height={700} /></div><div><span>{project.category}</span><h3>{project.title}</h3><p>{project.description}</p><dl><div><dt>For</dt><dd>{project.audience}</dd></div><div><dt>Format</dt><dd>{project.tools}</dd></div><div><dt>Status</dt><dd>{project.status}</dd></div></dl><a href={messenger} target="_blank" rel="noreferrer">Learn more or request a demo →</a></div></article>)}</div></section>
-    <section className="video-showcase"><div><p className="section-tag">Game preview</p><h2>Chronos Citadel</h2><p>See how a learning activity can feel like a focused digital mission on a laptop or desktop.</p></div><video controls playsInline preload="metadata" poster="/assets/chronos.png"><source src="/assets/chronos-citadel-preview.mp4" type="video/mp4" /></video></section>
-    <section className="cta-band"><p>Have an idea for learners, clients, or your own business?</p><h2>Let’s turn it into a clear digital experience.</h2><div className="actions"><Link className="button" href="/contact">Discuss your project →</Link><a className="text-link light" href={messenger} target="_blank" rel="noreferrer">Messenger ↗</a></div></section>
-  </main>;
+  return (
+    <main>
+      <PageHero
+        eyebrow="NUAN Learning Studio · Digital Solutions Studio"
+        title={<>Useful technology,<br /><em>made human.</em></>}
+        copy="Digital learning experiences and practical systems for classrooms, creators, and growing businesses."
+        actions={<Link className="button" href="/contact">Start a Project</Link>}
+      />
+
+      <section className="section studio-intro compact-studio-intro">
+        <div><p className="section-tag">How we work</p><h2>Clear goals first.<br /><em>Technology with purpose.</em></h2></div>
+        <div><p>Every project begins with the people who will use it. We focus on understandable flows, practical outcomes, and responsive experiences.</p><div className="studio-points"><span>Learning experiences</span><span>Business systems</span><span>Web experiences</span></div></div>
+      </section>
+
+      <section className="section portfolio-section grouped-portfolio">
+        <header className="center-heading"><p className="section-tag">Built &amp; Tested Projects</p><h2>Proof of work,<br /><em>organized by purpose.</em></h2></header>
+        {projectGroups.map((group) => {
+          const items = group.titles.map((title) => projects.find((project) => project.title === title)).filter((project) => project !== undefined);
+          return (
+            <section className="portfolio-group" key={group.label} aria-labelledby={`group-${group.label.replaceAll(" ", "-").toLowerCase()}`}>
+              <header><div><p className="category">{group.label}</p><h3 id={`group-${group.label.replaceAll(" ", "-").toLowerCase()}`}>{group.label}</h3></div><p>{group.copy}</p></header>
+              <div className="portfolio-grid">
+                {items.map((project) => {
+                  const isGame = project.category === "Educational Game";
+                  return (
+                    <article className="portfolio-card" key={project.title}>
+                      <div className={`portfolio-image ${isGame ? "cover" : "contain"}`}><Image src={project.image} alt={`${project.title} project screenshot`} width={1000} height={700} sizes="(max-width: 620px) 92vw, (max-width: 980px) 46vw, 570px" /></div>
+                      <div><span>{project.tools}</span><h3>{project.title}</h3><p>{project.description}</p><dl><div><dt>Designed for</dt><dd>{project.audience}</dd></div><div><dt>Status</dt><dd>{project.status}</dd></div></dl><Link className="card-cta" href="/contact">Start a Project →</Link></div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          );
+        })}
+      </section>
+
+      <section className="video-showcase"><div><p className="section-tag">Playable work preview</p><h2>Chronos Citadel</h2><p>A landscape learning experience designed for clear viewing on laptop and desktop screens.</p></div><video controls playsInline preload="metadata" poster="/assets/chronos.png" aria-label="Chronos Citadel gameplay preview"><source src="/assets/chronos-citadel-preview.mp4" type="video/mp4" /></video></section>
+
+      <section className="final-cta"><p className="section-tag">A useful idea deserves a clear experience</p><h2>Ready to start a digital project?</h2><p>Share the audience, goal, and format you have in mind. NUAN Learning Studio will help clarify the next step.</p><div className="actions"><Link className="button button-primary" href="/contact">Start a Project</Link></div></section>
+    </main>
+  );
 }

@@ -4,14 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { messenger } from "../lib/site-data";
-
 const links = [
   ["/", "Home"],
+  ["/products#pastillas", "Pastillas"],
+  ["/products#books", "Books"],
+  ["/portfolio", "Learning Studio"],
   ["/about", "About"],
-  ["/products", "Products"],
-  ["/portfolio", "Portfolio"],
-  ["/contact", "Contact"],
 ] as const;
 
 export function SiteNav() {
@@ -28,8 +26,8 @@ export function SiteNav() {
         <span /><span /><span /><span className="sr-only">Toggle navigation</span>
       </button>
       <nav id="primary-navigation" className={open ? "open" : ""} aria-label="Primary navigation">
-        {links.map(([href, label]) => <Link key={href} href={href} className={pathname === href ? "active" : ""} onClick={() => setOpen(false)}>{label}</Link>)}
-        <a className="nav-cta" href={messenger} target="_blank" rel="noreferrer">Message us ↗</a>
+        {links.map(([href, label]) => <Link key={href} href={href} className={!href.includes("#") && pathname === href ? "active" : ""} onClick={() => setOpen(false)}>{label}</Link>)}
+        <Link className="nav-cta" href="/contact" onClick={() => setOpen(false)}>Send an Inquiry</Link>
       </nav>
     </header>
   );

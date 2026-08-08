@@ -6,9 +6,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nuan-com.vercel.app"),
-  title: { default: "NUAN | Products, Learning and Digital Creations", template: "%s | NUAN" },
+  title: { default: "NUAN | Pastillas, Books and Digital Solutions", template: "%s | NUAN" },
   description:
-    "Meet the NUAN family: meaningful books, interactive learning experiences, and thoughtfully packed milk and ube pastillas.",
+    "Explore NUAN Pastillas, NUAN Books, and NUAN Learning Studio—one warm, creative umbrella brand with three clear branches.",
   other: {
     "codex-preview": "development",
   },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
-  openGraph: { title: "NUAN | Products, Learning and Digital Creations", description: "Discover NUAN books, learning experiences, digital creations, and thoughtfully packed pastillas.", images: ["/assets/nuan-logo.png"], type: "website" },
+  openGraph: { title: "NUAN | Pastillas, Books and Digital Solutions", description: "One meaningful dream. Three creative branches: NUAN Pastillas, NUAN Books, and NUAN Learning Studio.", images: ["/assets/nuan-logo.png"], type: "website" },
 };
 
 export default function RootLayout({
